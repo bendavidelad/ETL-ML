@@ -65,7 +65,7 @@ def build_categories_df(df):
     categories_split.columns = categories_col_names
     for column in categories_split:
         categories_split[column] = categories_split[column].str[-1:]
-        categories_split[column] = categories_split[column].astype(int)
+        categories_split[column] = categories_split[column].astype(bool)
     return categories_split
 
 
@@ -78,7 +78,7 @@ def save_data(df, database_filename):
     :type database_filename: str
     """
     engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql('messages', engine, index=False)
+    df.to_sql('messages', engine, index=False, if_exists='replace')
 
 
 def main():

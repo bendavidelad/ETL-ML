@@ -1,7 +1,10 @@
 # Disaster Response Pipeline Project
 
 ### Project Summary
-This project is using ETL and ML Pipeline in order to classify a disaster message into the relevant authorities.
+This project contains real messages that were sent during disaster events.
+It creates a machine learning pipeline to categorize these events, so it is possible to send the messages to appropriate disaster relief agency.
+This project also includes a web app where an emergency worker can input a new message and get classification results in several categories.
+It has the potential to save lives by categorizing new messages on real time.
 
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
