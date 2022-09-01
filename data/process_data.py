@@ -5,6 +5,15 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    loads messages and categories from csv and merges them
+    :param messages_filepath:  the path of the messages.csv
+    :type messages_filepath: str
+    :param categories_filepath: the path of categories.csv
+    :type categories_filepath: str
+    :return: the merged dataframe
+    :rtype: pd.Dataframe
+    """
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     df = pd.merge(left=messages, right=categories, on='id', how='inner')
@@ -12,6 +21,14 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    Cleans the given dataFrame, replacing categories column with categories df of 0 and 1
+    and drops duplicates
+    :param df: given df
+    :type df: pd.DataFrame
+    :return: the cleaned dataFrame
+    :rtype: pd.DataFrame
+    """
     categories_df = build_categories_df(df)
     df = replace_categories_column_with_df(categories_df, df)
     df = df.drop_duplicates()
@@ -19,12 +36,29 @@ def clean_data(df):
 
 
 def replace_categories_column_with_df(categories_df, df):
+    """
+    replaces the categories column with the categories dataFrame
+    :param categories_df: the dataframe to replace
+    :type categories_df: pd.DataFrame
+    :param df: the dataframe that contains the column to replace
+    :type df: pd.DataFrame
+    :return: the dataframe after the replacement
+    :rtype: pd.DataFrame
+    """
     df = df.drop('categories', axis=1)
     df = pd.concat([df, categories_df], axis=1)
     return df
 
 
 def build_categories_df(df):
+    """
+    build a dataframe that at the columns has all the categories and the values inside are either
+    0 or 1 for each row
+    :param df: dataframe that has a categories column
+    :type df: pd.DataFrame
+    :return: the categories dataframe
+    :rtype: pd.DataFrame
+    """
     categories_split = df['categories'].str.split(";", expand=True)
     first_row = categories_split.head(1)
     categories_col_names = [cat[:-2] for cat in first_row.values[0]]
@@ -36,6 +70,13 @@ def build_categories_df(df):
 
 
 def save_data(df, database_filename):
+    """
+    Saves the df into a database
+    :param df: the df to save
+    :type df: pd.DataFrame
+    :param database_filename: the name of db file
+    :type database_filename: str
+    """
     engine = create_engine('sqlite:///' + database_filename)
     df.to_sql('messages', engine, index=False)
 
