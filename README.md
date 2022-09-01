@@ -1,5 +1,8 @@
 # Disaster Response Pipeline Project
 
+### Project Summary
+This project is using ETL and ML Pipeline in order to classify a disaster message into the relevant authorities.
+
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
@@ -13,3 +16,23 @@
 3. Run your web app: `python run.py`
 
 4. Click the `PREVIEW` button to open the homepage
+
+### Project structure
+- app
+  | - template
+  | |- master.html  # main page of web app
+  | |- go.html  # classification result page of web app
+  |- run.py  # Flask file that runs app
+
+- data
+  |- disaster_categories.csv  # data to process
+  |- disaster_messages.csv  # data to process
+  |- process_data.py
+  |- InsertDatabaseName.db   # database to save clean data to
+
+- models
+  |- train_classifier.py
+  |- classifier.pkl  # saved model
+
+- README.md
+
